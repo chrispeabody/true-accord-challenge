@@ -4,29 +4,43 @@ import org.junit.Test;
 import static org.junit.Assert.assertSame;
 
 public class InstallmentFrequencyTest {
+    /**
+     * Ensure that when converting a string to an InstallmentFrequency, the string "WEEKLY" is converted correctly.
+     */
     @Test
-    public void whenGivenStringWEEKLY_thenConvertsToEnum() {
-        String stringToConvert = "WEEKLY";
-        InstallmentFrequency installmentFrequency = InstallmentFrequency.valueOf(stringToConvert);
-        assertSame(installmentFrequency, InstallmentFrequency.WEEKLY);
+    public void valueOf_stringWEEKLYConvertsToEnum() {
+        String stringToConvert = "WEEKLY"; // ARRANGE
+        InstallmentFrequency installmentFrequency = InstallmentFrequency.valueOf(stringToConvert); // ACT
+        assertSame(installmentFrequency, InstallmentFrequency.WEEKLY); // ASSERT
     }
 
+    /**
+     * Ensure that when converting a string to an InstallmentFrequency, the string "BI_WEEKLY" is converted correctly.
+     */
     @Test
-    public void whenGivenStringBI_WEEKLY_thenConvertsToEnum() {
-        String stringToConvert = "BI_WEEKLY";
-        InstallmentFrequency installmentFrequency = InstallmentFrequency.valueOf(stringToConvert);
-        assertSame(installmentFrequency, InstallmentFrequency.BI_WEEKLY);
+    public void valueOf_stringBIWEEKLYConvertsToEnum() {
+        String stringToConvert = "BI_WEEKLY"; // ARRANGE
+        InstallmentFrequency installmentFrequency = InstallmentFrequency.valueOf(stringToConvert); // ACT
+        assertSame(installmentFrequency, InstallmentFrequency.BI_WEEKLY); // ASSERT
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void whenGivenInvalidCapitolization_thenThrowsException() {
-        String stringToConvert = "WeEKlY";
-        InstallmentFrequency installmentFrequency = InstallmentFrequency.valueOf(stringToConvert);
+    /**
+     * Ensure that when converting a string to an InstallmentFrequency, if capitalization does not match exactly, an
+     * exception is thrown.
+     */
+    @Test(expected = IllegalArgumentException.class) // ASSERT
+    public void valueOf_invalidCapitalizationThrowsException() {
+        String stringToConvert = "weekly"; // ARRANGE
+        InstallmentFrequency installmentFrequency = InstallmentFrequency.valueOf(stringToConvert); // ACT
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void whenGivenUnrecognizedString_thenThrowsException() {
-        String stringToConvert = "ANNUALLY";
-        InstallmentFrequency installmentFrequency = InstallmentFrequency.valueOf(stringToConvert);
+    /**
+     * Ensure that when converting a string to an InstallmentFrequency, if the string is not in the enum and exception
+     * is thrown.
+     */
+    @Test(expected = IllegalArgumentException.class) // ASSERT
+    public void valueOf_unrecognizedValueThrowsException() {
+        String stringToConvert = "ANNUALLY"; // ARRANGE
+        InstallmentFrequency installmentFrequency = InstallmentFrequency.valueOf(stringToConvert); // ACT
     }
 }

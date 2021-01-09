@@ -1,6 +1,6 @@
 package enums;
 
-enum InstallmentFrequency {
+public enum InstallmentFrequency {
     WEEKLY,
     BI_WEEKLY
 }

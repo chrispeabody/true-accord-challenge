@@ -52,6 +52,6 @@ public class DebtInfo {
      * Prints the data contained in this DebtInfo to System.out. Prints it in one line and returns.
      */
     public void print() {
-
+        //stub
     }
 }

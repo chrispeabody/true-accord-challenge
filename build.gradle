@@ -19,10 +19,16 @@ repositories {
 
 dependencies {
     // Use JUnit test framework.
-    testImplementation 'junit:junit:5.4.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
 
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:29.0-jre'
     implementation 'org.apache.httpcomponents:httpclient:4.5.13'
 }
+
+test {
+    useJUnitPlatform()
+}
+
 mainClassName = 'App'

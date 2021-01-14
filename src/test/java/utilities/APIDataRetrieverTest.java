@@ -4,12 +4,12 @@ import data.Debt;
 import data.Payment;
 import data.PaymentPlan;
 import enums.InstallmentFrequency;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Date;
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
 
 public class APIDataRetrieverTest {
     /**

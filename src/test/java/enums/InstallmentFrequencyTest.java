@@ -1,7 +1,8 @@
 package enums;
 
-import org.junit.Test;
-import static org.junit.Assert.assertSame;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class InstallmentFrequencyTest {
     /**
@@ -28,19 +29,31 @@ public class InstallmentFrequencyTest {
      * Ensure that when converting a string to an InstallmentFrequency, if capitalization does not match exactly, an
      * exception is thrown.
      */
-    @Test(expected = IllegalArgumentException.class) // ASSERT
+    @Test
     public void valueOf_invalidCapitalizationThrowsException() {
-        String stringToConvert = "weekly"; // ARRANGE
-        InstallmentFrequency installmentFrequency = InstallmentFrequency.valueOf(stringToConvert); // ACT
+        // ARRANGE
+        String stringToConvert = "weekly";
+
+        // ASSERT
+        assertThrows(IllegalStateException.class, () -> {
+            // ACT
+            InstallmentFrequency installmentFrequency = InstallmentFrequency.valueOf(stringToConvert);
+        });
     }
 
     /**
      * Ensure that when converting a string to an InstallmentFrequency, if the string is not in the enum and exception
      * is thrown.
      */
-    @Test(expected = IllegalArgumentException.class) // ASSERT
+    @Test
     public void valueOf_unrecognizedValueThrowsException() {
-        String stringToConvert = "ANNUALLY"; // ARRANGE
-        InstallmentFrequency installmentFrequency = InstallmentFrequency.valueOf(stringToConvert); // ACT
+        // ARRANGE
+        String stringToConvert = "ANNUALLY";
+
+        // ASSERT
+        assertThrows(IllegalStateException.class, () -> {
+            // ACT
+            InstallmentFrequency installmentFrequency = InstallmentFrequency.valueOf(stringToConvert);
+        });
     }
 }

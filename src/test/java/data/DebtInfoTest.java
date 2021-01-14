@@ -1,14 +1,14 @@
 package data;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.Date;
-
-import static org.junit.Assert.assertEquals;
 
 public class DebtInfoTest {
     private final PrintStream standardOut = System.out;
@@ -81,7 +81,7 @@ public class DebtInfoTest {
     /**
      * Ensures that if a DebtInfo is printed with a missing Debt, it throws an IllegalStateException.
      */
-    @Test(expected = IllegalStateException.class) // ASSERT
+    @Test
     public void print_DebtInfoWithMissingDebt() {
         // ARRANGE
         DebtInfo debtInfo = new DebtInfo();
@@ -89,14 +89,14 @@ public class DebtInfoTest {
         debtInfo.setRemainingAmount(12.17);
         debtInfo.setNextPaymentDueDate(null);
 
-        // ACT
-        debtInfo.print();
+        // ACT && ASSERT
+        assertThrows(IllegalStateException.class, debtInfo::print);
     }
 
     /**
      * Ensures that if a DebtInfo is printed with a Debt missing an id, it throws an IllegalStateException.
      */
-    @Test(expected = IllegalStateException.class) // ASSERT
+    @Test
     public void print_DebtInfoWithDebtMissingId() {
         // ARRANGE
         Debt debt = new Debt();
@@ -108,14 +108,14 @@ public class DebtInfoTest {
         debtInfo.setRemainingAmount(12.17);
         debtInfo.setNextPaymentDueDate(null);
 
-        // ACT
-        debtInfo.print();
+        // ACT && ASSERT
+        assertThrows(IllegalStateException.class, debtInfo::print);
     }
 
     /**
      * Ensures that if a DebtInfo is printed with a Debt missing an amount, it throws an IllegalStateException.
      */
-    @Test(expected = IllegalStateException.class) // ASSERT
+    @Test
     public void print_DebtInfoWithDebtMissingAmount() {
         // ARRANGE
         Debt debt = new Debt();
@@ -127,14 +127,14 @@ public class DebtInfoTest {
         debtInfo.setRemainingAmount(12.17);
         debtInfo.setNextPaymentDueDate(null);
 
-        // ACT
-        debtInfo.print();
+        // ACT && ASSERT
+        assertThrows(IllegalStateException.class, debtInfo::print);
     }
 
     /**
      * Ensures that if a DebtInfo is printed while missing isInPaymentPlan, it throws an IllegalStateException.
      */
-    @Test(expected = IllegalStateException.class) // ASSERT
+    @Test
     public void print_DebtInfoMissingIsInPaymentPlan() {
         // ARRANGE
         Debt debt = new Debt();
@@ -146,14 +146,14 @@ public class DebtInfoTest {
         debtInfo.setRemainingAmount(12.17);
         debtInfo.setNextPaymentDueDate(null);
 
-        // ACT
-        debtInfo.print();
+        // ACT && ASSERT
+        assertThrows(IllegalStateException.class, debtInfo::print);
     }
 
     /**
      * Ensures that if a DebtInfo is printed while missing remainingAmount, it throws an IllegalStateException.
      */
-    @Test(expected = IllegalStateException.class) // ASSERT
+    @Test
     public void print_DebtInfoMissingRemainingAmount() {
         // ARRANGE
         Debt debt = new Debt();
@@ -165,7 +165,7 @@ public class DebtInfoTest {
         debtInfo.setIsInPaymentPlan(false);
         debtInfo.setNextPaymentDueDate(null);
 
-        // ACT
-        debtInfo.print();
+        // ACT && ASSERT
+        assertThrows(IllegalStateException.class, debtInfo::print);
     }
 }

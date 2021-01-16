@@ -36,7 +36,7 @@ public class DebtInfoTest {
     @Test
     public void print_fullyInitializedDebtInfo() {
         // ARRANGE
-        Debt debt = new Debt();
+        final Debt debt = new Debt();
         debt.setId(17);
         debt.setAmount(37.50);
 
@@ -60,7 +60,7 @@ public class DebtInfoTest {
     @Test
     public void print_DebtInfoWithNoPaymentPlan() {
         // ARRANGE
-        Debt debt = new Debt();
+        final Debt debt = new Debt();
         debt.setId(18);
         debt.setAmount(13.17);
 
@@ -84,7 +84,7 @@ public class DebtInfoTest {
     @Test
     public void print_DebtInfoWithMissingDebt() {
         // ARRANGE
-        DebtInfo debtInfo = new DebtInfo();
+        final DebtInfo debtInfo = new DebtInfo();
         debtInfo.setIsInPaymentPlan(false);
         debtInfo.setRemainingAmount(12.17);
         debtInfo.setNextPaymentDueDate(null);
@@ -99,10 +99,10 @@ public class DebtInfoTest {
     @Test
     public void print_DebtInfoWithDebtMissingId() {
         // ARRANGE
-        Debt debt = new Debt();
+        final Debt debt = new Debt();
         debt.setAmount(13.17);
 
-        DebtInfo debtInfo = new DebtInfo();
+        final DebtInfo debtInfo = new DebtInfo();
         debtInfo.setDebt(debt);
         debtInfo.setIsInPaymentPlan(false);
         debtInfo.setRemainingAmount(12.17);
@@ -118,10 +118,10 @@ public class DebtInfoTest {
     @Test
     public void print_DebtInfoWithDebtMissingAmount() {
         // ARRANGE
-        Debt debt = new Debt();
+        final Debt debt = new Debt();
         debt.setId(15);
 
-        DebtInfo debtInfo = new DebtInfo();
+        final DebtInfo debtInfo = new DebtInfo();
         debtInfo.setDebt(debt);
         debtInfo.setIsInPaymentPlan(false);
         debtInfo.setRemainingAmount(12.17);
@@ -137,11 +137,11 @@ public class DebtInfoTest {
     @Test
     public void print_DebtInfoMissingIsInPaymentPlan() {
         // ARRANGE
-        Debt debt = new Debt();
+        final Debt debt = new Debt();
         debt.setId(15);
         debt.setAmount(13.17);
 
-        DebtInfo debtInfo = new DebtInfo();
+        final DebtInfo debtInfo = new DebtInfo();
         debtInfo.setDebt(debt);
         debtInfo.setRemainingAmount(12.17);
         debtInfo.setNextPaymentDueDate(null);
@@ -156,11 +156,11 @@ public class DebtInfoTest {
     @Test
     public void print_DebtInfoMissingRemainingAmount() {
         // ARRANGE
-        Debt debt = new Debt();
+        final Debt debt = new Debt();
         debt.setId(15);
         debt.setAmount(13.17);
 
-        DebtInfo debtInfo = new DebtInfo();
+        final DebtInfo debtInfo = new DebtInfo();
         debtInfo.setDebt(debt);
         debtInfo.setIsInPaymentPlan(false);
         debtInfo.setNextPaymentDueDate(null);

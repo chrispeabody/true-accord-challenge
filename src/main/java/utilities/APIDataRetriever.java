@@ -27,7 +27,7 @@ public class APIDataRetriever implements DataRetriever {
      * unpacked into a List of Debt data objects and returned.
      * @return A List of Debt objects representing all of the debts in the data source.
      */
-    public List<Debt> GetAllDebts() {
+    public List<Debt> getAllDebts() {
         List<Debt> debts = new ArrayList<>();
         // stub
         return debts;
@@ -38,7 +38,7 @@ public class APIDataRetriever implements DataRetriever {
      * format, then unpacked into a List of PaymentPlan data objects and returned.
      * @return A List of PaymentPlan objects representing all of the payment plans in the data source.
      */
-    public List<PaymentPlan> GetAllPaymentPlans() {
+    public List<PaymentPlan> getAllPaymentPlans() {
         List<PaymentPlan> paymentPlans = new ArrayList<>();
         // stub
         return paymentPlans;
@@ -49,7 +49,7 @@ public class APIDataRetriever implements DataRetriever {
      * unpacked into a List of Payment data objects and returned.
      * @return A List of Payment objects representing all of the payments in the data source.
      */
-    public List<Payment> GetAllPayments() {
+    public List<Payment> getAllPayments() {
         List<Payment> payments = new ArrayList<>();
         // stub
         return payments;

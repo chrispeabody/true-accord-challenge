@@ -35,7 +35,7 @@ public class InstallmentFrequencyTest {
         String stringToConvert = "weekly";
 
         // ASSERT
-        assertThrows(IllegalStateException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             // ACT
             InstallmentFrequency installmentFrequency = InstallmentFrequency.valueOf(stringToConvert);
         });
@@ -51,7 +51,7 @@ public class InstallmentFrequencyTest {
         String stringToConvert = "ANNUALLY";
 
         // ASSERT
-        assertThrows(IllegalStateException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             // ACT
             InstallmentFrequency installmentFrequency = InstallmentFrequency.valueOf(stringToConvert);
         });

@@ -16,12 +16,12 @@ public class APIDataRetrieverTest {
      * Ensure that given a valid URL the retriever will return a List of Debt objects, unpacked correctly from the API.
      */
     @Test
-    public void GetAllDebts_baseCase() {
+    public void getAllDebts_baseCase() {
         //ARRANGE
         APIDataRetriever apiDataRetriever = new APIDataRetriever("REPLACE_ME"); // TODO: mock endpoint
 
         // ACT
-        List<Debt> debts = apiDataRetriever.GetAllDebts();
+        List<Debt> debts = apiDataRetriever.getAllDebts();
 
         // ASSERT
         assertEquals(2,debts.size());
@@ -31,7 +31,6 @@ public class APIDataRetrieverTest {
 
         assertEquals(Integer.valueOf(11), debts.get(1).getId());
         assertEquals(Double.valueOf(18.94), debts.get(1).getAmount());
-
     }
 
     /**
@@ -39,12 +38,12 @@ public class APIDataRetrieverTest {
      * the API.
      */
     @Test
-    public void GetAllPaymentPlans_baseCase() {
+    public void getAllPaymentPlans_baseCase() {
         //ARRANGE
-        APIDataRetriever apiDataRetriever = new APIDataRetriever("REPLACE_ME"); // TODO: mock endpoint
+        final APIDataRetriever apiDataRetriever = new APIDataRetriever("REPLACE_ME"); // TODO: mock endpoint
 
         // ACT
-        List<PaymentPlan> paymentPlans = apiDataRetriever.GetAllPaymentPlans();
+        final List<PaymentPlan> paymentPlans = apiDataRetriever.getAllPaymentPlans();
 
         // ASSERT
         assertEquals(2,paymentPlans.size());
@@ -69,12 +68,12 @@ public class APIDataRetrieverTest {
      * API.
      */
     @Test
-    public void GetAllPayments_baseCase() {
+    public void getAllPayments_baseCase() {
         //ARRANGE
-        APIDataRetriever apiDataRetriever = new APIDataRetriever("REPLACE_ME"); // TODO: mock endpoint
+        final APIDataRetriever apiDataRetriever = new APIDataRetriever("REPLACE_ME"); // TODO: mock endpoint
 
         // ACT
-        List<Payment> payments = apiDataRetriever.GetAllPayments();
+        final List<Payment> payments = apiDataRetriever.getAllPayments();
 
         // ASSERT
         assertEquals(2,payments.size());
@@ -92,7 +91,7 @@ public class APIDataRetrieverTest {
      * Ensure that given an invalid URL the retriever will throw an exception.
      */
     @Test
-    public void GetAllDebts_invalidRootUrl() {
+    public void getAllDebts_invalidRootUrl() {
         // stub
     }
 
@@ -100,7 +99,7 @@ public class APIDataRetrieverTest {
      * Ensure that given an invalid URL the retriever will throw an exception.
      */
     @Test
-    public void GetAllPaymentPlans_invalidRootUrl() {
+    public void getAllPaymentPlans_invalidRootUrl() {
         // stub
     }
 
@@ -108,7 +107,7 @@ public class APIDataRetrieverTest {
      * Ensure that given an invalid URL the retriever will throw an exception.
      */
     @Test
-    public void GetAllPayments_invalidRootUrl() {
+    public void getAllPayments_invalidRootUrl() {
         // stub
     }
 }

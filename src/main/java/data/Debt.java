@@ -9,6 +9,15 @@ public class Debt {
     private Integer id;
     private Double amount;
 
+    public Debt() {
+        // Do nothing for default constructor.
+    }
+
+    public Debt(Integer id, Double amount) {
+        this.id = id;
+        this.amount = amount;
+    }
+
     public Integer getId() {
         return id;
     }

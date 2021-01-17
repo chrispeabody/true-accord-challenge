@@ -16,6 +16,17 @@ public class DebtInfo {
     private Double remainingAmount;
     private Date nextPaymentDueDate;
 
+    public DebtInfo() {
+        // Do nothing for default constructor.
+    }
+
+    public DebtInfo(Debt debt, Boolean isInPaymentPlan, Double remainingAmount, Date nextPaymentDueDate) {
+        this.debt = debt;
+        this.isInPaymentPlan = isInPaymentPlan;
+        this.remainingAmount = remainingAmount;
+        this.nextPaymentDueDate = nextPaymentDueDate;
+    }
+
     public Debt getDebt() {
         return debt;
     }

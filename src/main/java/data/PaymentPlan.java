@@ -20,6 +20,24 @@ public class PaymentPlan {
     private Double installmentAmount;
     private Date startDate;
 
+    public PaymentPlan() {
+        // Do nothing for default constructor.
+    }
+
+    public PaymentPlan(Integer id,
+                       Integer debtId,
+                       Double amountToPay,
+                       InstallmentFrequency installmentFrequency,
+                       Double installmentAmount,
+                       Date startDate) {
+        this.id = id;
+        this.debtId = debtId;
+        this.amountToPay = amountToPay;
+        this.installmentFrequency = installmentFrequency;
+        this.installmentAmount = installmentAmount;
+        this.startDate = startDate;
+    }
+
     public Integer getId() {
         return id;
     }

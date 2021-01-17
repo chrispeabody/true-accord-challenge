@@ -11,34 +11,38 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * This service is responsible for calculating all of the DebtInfo metadata for various sets of debts, payment plans,
- * and payments. The main functionality, calculateDebtInfos, is static so this class does not need to me initialized.
- * The class holds no state.
+ * This service is responsible for calculating all of the metadata for a set of debts, payment plans, and payments. This
+ * service is initialized with those objects, and all calls to it will operate on what it was given. The sets are not
+ * mutable after constructed. Helper utilities are exposed for flexibility since they are useful on their own.
  */
 public class DebtAnalysisService {
+    List<Debt> allDebts;
+    List<PaymentPlan> allPaymentPlans;
+    List<Payment> allPayments;
+
+    public DebtAnalysisService(List<Debt> allDebts,
+                               List<PaymentPlan> allPaymentPlans,
+                               List<Payment> allPayments) {
+        Objects.requireNonNull(allDebts,
+                "Cannot construct DebtAnalysisService: allDebts must not be null");
+        Objects.requireNonNull(allPaymentPlans,
+                "Cannot construct DebtAnalysisService: allPaymentPlans must not be null");
+        Objects.requireNonNull(allPayments,
+                "Cannot construct DebtAnalysisService: allPayments must not be null");
+
+        this.allDebts = allDebts;
+        this.allPaymentPlans = allPaymentPlans;
+        this.allPayments = allPayments;
+    }
 
     /**
-     * Given the complete lists of debts, payment plans, and payments in a system, this returns a list of DebtInfo
-     * metadata objects describing the system. Each DebtInfo will pertain to a debt, and include the debt itself, if it
-     * is in a payment plan, how much is still unpaid on the debt, and when the next payment is due. If any input lists
-     * are null, this will throw an exception.
-     * @param allDebts Every debt in a system.
-     * @param allPaymentPlans Every payment plan in a system.
-     * @param allPayments Every payment plan in a system.
+     * This generates a list of DebtInfo metadata objects describing the debts, payment plans, and payments in the
+     * system. Each DebtInfo will pertain to a single debt, and include the debt itself, whether it is in a payment
+     * plan, how much is still unpaid on the debt, and when the next payment is due.
      * @return A List of DebtInfo metadata objects containing the Debt, if it isInPaymentPlan, the remainingAmount, and
      * the nextPaymentDueDate.
      */
-    public static List<DebtInfo> calculateDebtInfos(List<Debt> allDebts,
-                                                    List<PaymentPlan> allPaymentPlans,
-                                                    List<Payment> allPayments) {
-
-        Objects.requireNonNull(allDebts,
-                "Cannot calculate debtInfos: allDebts must not be null");
-        Objects.requireNonNull(allPaymentPlans,
-                "Cannot calculate debtInfos: allPaymentPlans must not be null");
-        Objects.requireNonNull(allPayments,
-                "Cannot calculate debtInfos: allPayments must not be null");
-
+    public List<DebtInfo> generateDebtInfos() {
 
         List<DebtInfo> debtInfos = new ArrayList<>();
 
@@ -57,11 +61,13 @@ public class DebtAnalysisService {
     /**
      * Finds the payment plan associate with the given Debt, if one exists. The system assumes a debt will never have
      * more than one associated payment plan, so this function will return the id of the first match found.
-     * @param debt The Debt object to check for payment plans on.
+     * @param debt The debt we want to find the related payment plan for.
      * @return The Integer id of the PaymentPlan the given Debt is associated with. If there is no associated plan, this
      * will return null.
      */
-    private Integer calculateIsInPaymentPlan(Debt debt) {
+    public Integer findPaymentPlan(Debt debt) {
+        // null check debt
+        //
         // stub
         // get id from debt
         // loop through list of payment plans
@@ -81,9 +87,11 @@ public class DebtAnalysisService {
      * @param debt The Debt for which we need to find the remaining amount.
      * @return A double representing the amount in USD that still needs to be paid on a debt.
      */
-    private double calculateRemainingAmount(Debt debt) {
-        double remainingAmount = debt.getAmount();
+    public double calculateRemainingAmount(Debt debt) {
+        //double remainingAmount = debt.getAmount();
 
+        // null check debt
+        //
         // stub
         // find the payment plan associated with the debt. if one doesn't exist, return the full amount
         //
@@ -92,7 +100,7 @@ public class DebtAnalysisService {
         // if the final amount is below zero, set it back to 0
         // return the final total
 
-        return remainingAmount;
+        return -1;
     }
 
     /**
@@ -115,9 +123,10 @@ public class DebtAnalysisService {
      * @param paymentPlan The PaymentPlan to find the next payment day of
      * @return A Date representing the next payment due date for the plan. Null if the associated debt is already paid
      */
-    private Date calculateNextPaymentDueDate(PaymentPlan paymentPlan) {
+    public Date calculateNextPaymentDueDate(PaymentPlan paymentPlan) {
         Date nextPaymentDueDate = new Date();
 
+        // null check paymentPlan
         // stub
         //
         // check the remainingAmount. If it's 0, then just return null

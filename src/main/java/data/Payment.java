@@ -11,6 +11,16 @@ public class Payment {
     private Double amount;
     private Date date;
 
+    public Payment() {
+        // Do nothing for default constructor.
+    }
+
+    public Payment(Integer paymentPlanId, Double amount, Date date) {
+        this.paymentPlanId = paymentPlanId;
+        this.amount = amount;
+        this.date = date;
+    }
+
     public Integer getPaymentPlanId() {
         return paymentPlanId;
     }

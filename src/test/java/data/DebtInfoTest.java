@@ -36,9 +36,7 @@ public class DebtInfoTest {
     @Test
     public void print_fullyInitializedDebtInfo() {
         // ARRANGE
-        final Debt debt = new Debt();
-        debt.setId(17);
-        debt.setAmount(37.50);
+        final Debt debt = new Debt(17, 37.50);
 
         DebtInfo debtInfo = new DebtInfo();
         debtInfo.setDebt(debt);
@@ -60,9 +58,7 @@ public class DebtInfoTest {
     @Test
     public void print_DebtInfoWithNoPaymentPlan() {
         // ARRANGE
-        final Debt debt = new Debt();
-        debt.setId(18);
-        debt.setAmount(13.17);
+        final Debt debt = new Debt(18, 13.17);
 
         DebtInfo debtInfo = new DebtInfo();
         debtInfo.setDebt(debt);
@@ -137,9 +133,7 @@ public class DebtInfoTest {
     @Test
     public void print_DebtInfoMissingIsInPaymentPlan() {
         // ARRANGE
-        final Debt debt = new Debt();
-        debt.setId(15);
-        debt.setAmount(13.17);
+        final Debt debt = new Debt(15, 13.17);
 
         final DebtInfo debtInfo = new DebtInfo();
         debtInfo.setDebt(debt);
@@ -156,9 +150,7 @@ public class DebtInfoTest {
     @Test
     public void print_DebtInfoMissingRemainingAmount() {
         // ARRANGE
-        final Debt debt = new Debt();
-        debt.setId(15);
-        debt.setAmount(13.17);
+        final Debt debt = new Debt(15, 13.17);
 
         final DebtInfo debtInfo = new DebtInfo();
         debtInfo.setDebt(debt);

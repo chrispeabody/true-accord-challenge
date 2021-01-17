@@ -47,7 +47,7 @@ public class DebtInfoTest {
         debtInfo.print();
 
         // ASSERT
-        assertEquals("id: 17, amount: 37.50, is_in_payment_plan: true, remaining_amount: 11.18, " +
+        assertEquals("id: 17, amount: 37.5, is_in_payment_plan: true, remaining_amount: 11.18, " +
                 "next_payment_due_date: 2021-10-23T05:00:00Z", outputStreamCaptor.toString().trim());
     }
 
@@ -57,7 +57,7 @@ public class DebtInfoTest {
     @Test
     public void print_DebtInfoWithNoPaymentPlan() {
         // ARRANGE
-        final Debt debt = new Debt(18, 13.17);
+        final Debt debt = new Debt(18, 13.37);
 
         DebtInfo debtInfo = new DebtInfo(debt,
                 false,
@@ -68,7 +68,7 @@ public class DebtInfoTest {
         debtInfo.print();
 
         // ASSERT
-        assertEquals("id: 18, amount: 13.37, is_in_payment_plan: true, remaining_amount: 12.27, " +
+        assertEquals("id: 18, amount: 13.37, is_in_payment_plan: false, remaining_amount: 12.17, " +
                 "next_payment_due_date: null", outputStreamCaptor.toString().trim());
     }
 }

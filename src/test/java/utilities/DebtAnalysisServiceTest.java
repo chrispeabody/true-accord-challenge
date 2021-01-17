@@ -234,6 +234,29 @@ public class DebtAnalysisServiceTest {
     }
 
     @Test
+    public void calculateRemainingAmount_decimalPayments() {
+        // ARRANGE
+        Debt debt = new Debt(42, 1000.00);
+        List<Debt> allDebts = new ArrayList<>();
+        allDebts.add(debt);
+        List<PaymentPlan> allPaymentPlans = new ArrayList<>();
+        allPaymentPlans.add(new PaymentPlan(1,
+                42,
+                1000.00,
+                InstallmentFrequency.WEEKLY,
+                4.0,
+                new Date()));
+        List<Payment> allPayments = new ArrayList<>();
+        allPayments.add(new Payment(1, 200.59, new Date(1605675600000L))); // Date is 11/18/2020
+        allPayments.add(new Payment(1, 300.273, new Date(1606107600000L))); // Date is 11/23/2020
+        allPayments.add(new Payment(1, 302.12, new Date(1608872400000L))); // Date is 12/25/2020
+        DebtAnalysisService debtAnalysisService = new DebtAnalysisService(allDebts, allPaymentPlans, allPayments);
+
+        // ACT && ASSERT
+        assertEquals(197.017, debtAnalysisService.calculateRemainingAmount(debt));
+    }
+
+    @Test
     public void calculateRemainingAmount_completelyPaid() {
         // ARRANGE
         Debt debt = new Debt(42, 1000.00);

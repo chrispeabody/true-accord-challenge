@@ -6,6 +6,7 @@ import data.Payment;
 import data.PaymentPlan;
 import enums.InstallmentFrequency;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -92,23 +93,23 @@ public class DebtAnalysisService {
     public double calculateRemainingAmount(Debt debt) {
         Objects.requireNonNull(debt, "Cannot calculate remaining amount: debt must not be null");
 
-        double remainingAmount = debt.getAmount();
+        BigDecimal remainingAmount = BigDecimal.valueOf(debt.getAmount());
 
         PaymentPlan paymentPlan = findPaymentPlan(debt);
         if (paymentPlan == null) {
-            return remainingAmount;
+            return remainingAmount.doubleValue();
         }
 
         for (Payment payment : this.allPayments) {
             if (payment.getPaymentPlanId() == paymentPlan.getId()) {
-                remainingAmount -= payment.getAmount();
-                if (remainingAmount <= 0) {
-                    return 0;
+                remainingAmount = remainingAmount.subtract(BigDecimal.valueOf(payment.getAmount()));
+                if (remainingAmount.doubleValue() <= 0) {
+                    return 0.0;
                 }
             }
         }
 
-        return remainingAmount;
+        return remainingAmount.doubleValue();
     }
 
     /**
@@ -151,12 +152,14 @@ public class DebtAnalysisService {
         Date currentDate = Objects.requireNonNull(paymentPlan.getStartDate(),
                 "Cannot calculate nextPaymentDueDate: payment plan start date must not be null");
 
-        double paidForCurrentDate = 0.0;
+        BigDecimal paidForCurrentDate = BigDecimal.valueOf(0.0);
         while (true) {
             if (relatedPaymentsIterator.hasNext()) {
-                paidForCurrentDate += relatedPaymentsIterator.next().getAmount();
-                while (paidForCurrentDate >= paymentPlan.getInstallmentAmount()) {
-                    paidForCurrentDate -= paymentPlan.getInstallmentAmount();
+                paidForCurrentDate = paidForCurrentDate.add(
+                        BigDecimal.valueOf(relatedPaymentsIterator.next().getAmount()));
+                while (paidForCurrentDate.doubleValue() >= paymentPlan.getInstallmentAmount()) {
+                    paidForCurrentDate = paidForCurrentDate.subtract(
+                            BigDecimal.valueOf(paymentPlan.getInstallmentAmount()));
                     long millisToAdd = paymentPlan.getInstallmentFrequency() == InstallmentFrequency.WEEKLY
                             ? 604800000 : 1209600000;
                     currentDate.setTime(currentDate.getTime() + millisToAdd);

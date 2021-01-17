@@ -38,11 +38,10 @@ public class DebtInfoTest {
         // ARRANGE
         final Debt debt = new Debt(17, 37.50);
 
-        DebtInfo debtInfo = new DebtInfo();
-        debtInfo.setDebt(debt);
-        debtInfo.setIsInPaymentPlan(true);
-        debtInfo.setRemainingAmount(11.18);
-        debtInfo.setNextPaymentDueDate(new Date(1634965200000L)); // 10/23/2021 at 5:00
+        DebtInfo debtInfo = new DebtInfo(debt,
+                true,
+                11.18,
+                new Date(1634965200000L)); // 10/23/2021 at 5:00
 
         // ACT
         debtInfo.print();
@@ -60,11 +59,10 @@ public class DebtInfoTest {
         // ARRANGE
         final Debt debt = new Debt(18, 13.17);
 
-        DebtInfo debtInfo = new DebtInfo();
-        debtInfo.setDebt(debt);
-        debtInfo.setIsInPaymentPlan(false);
-        debtInfo.setRemainingAmount(12.17);
-        debtInfo.setNextPaymentDueDate(null);
+        DebtInfo debtInfo = new DebtInfo(debt,
+                false,
+                12.17,
+                null);
 
         // ACT
         debtInfo.print();
@@ -72,92 +70,5 @@ public class DebtInfoTest {
         // ASSERT
         assertEquals("id: 18, amount: 13.37, is_in_payment_plan: true, remaining_amount: 12.27, " +
                 "next_payment_due_date: null", outputStreamCaptor.toString().trim());
-    }
-
-    /**
-     * Ensures that if a DebtInfo is printed with a missing Debt, it throws an IllegalStateException.
-     */
-    @Test
-    public void print_DebtInfoWithMissingDebt() {
-        // ARRANGE
-        final DebtInfo debtInfo = new DebtInfo();
-        debtInfo.setIsInPaymentPlan(false);
-        debtInfo.setRemainingAmount(12.17);
-        debtInfo.setNextPaymentDueDate(null);
-
-        // ACT && ASSERT
-        assertThrows(IllegalStateException.class, debtInfo::print);
-    }
-
-    /**
-     * Ensures that if a DebtInfo is printed with a Debt missing an id, it throws an IllegalStateException.
-     */
-    @Test
-    public void print_DebtInfoWithDebtMissingId() {
-        // ARRANGE
-        final Debt debt = new Debt();
-        debt.setAmount(13.17);
-
-        final DebtInfo debtInfo = new DebtInfo();
-        debtInfo.setDebt(debt);
-        debtInfo.setIsInPaymentPlan(false);
-        debtInfo.setRemainingAmount(12.17);
-        debtInfo.setNextPaymentDueDate(null);
-
-        // ACT && ASSERT
-        assertThrows(IllegalStateException.class, debtInfo::print);
-    }
-
-    /**
-     * Ensures that if a DebtInfo is printed with a Debt missing an amount, it throws an IllegalStateException.
-     */
-    @Test
-    public void print_DebtInfoWithDebtMissingAmount() {
-        // ARRANGE
-        final Debt debt = new Debt();
-        debt.setId(15);
-
-        final DebtInfo debtInfo = new DebtInfo();
-        debtInfo.setDebt(debt);
-        debtInfo.setIsInPaymentPlan(false);
-        debtInfo.setRemainingAmount(12.17);
-        debtInfo.setNextPaymentDueDate(null);
-
-        // ACT && ASSERT
-        assertThrows(IllegalStateException.class, debtInfo::print);
-    }
-
-    /**
-     * Ensures that if a DebtInfo is printed while missing isInPaymentPlan, it throws an IllegalStateException.
-     */
-    @Test
-    public void print_DebtInfoMissingIsInPaymentPlan() {
-        // ARRANGE
-        final Debt debt = new Debt(15, 13.17);
-
-        final DebtInfo debtInfo = new DebtInfo();
-        debtInfo.setDebt(debt);
-        debtInfo.setRemainingAmount(12.17);
-        debtInfo.setNextPaymentDueDate(null);
-
-        // ACT && ASSERT
-        assertThrows(IllegalStateException.class, debtInfo::print);
-    }
-
-    /**
-     * Ensures that if a DebtInfo is printed while missing remainingAmount, it throws an IllegalStateException.
-     */
-    @Test
-    public void print_DebtInfoMissingRemainingAmount() {
-        // ARRANGE
-        final Debt debt = new Debt(15, 13.17);
-
-        final DebtInfo debtInfo = new DebtInfo();
-        debtInfo.setDebt(debt);
-        debtInfo.setIsInPaymentPlan(false);
-        debtInfo.setNextPaymentDueDate(null);
-
-        // ACT && ASSERT
-        assertThrows(IllegalStateException.class, debtInfo::print);
     }
 }

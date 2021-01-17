@@ -1,6 +1,7 @@
 package data;
 
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * This class is responsible for storing metadata about debts. Besides a function which can print the metadata, this
@@ -11,17 +12,14 @@ import java.util.Date;
  * nextPaymentDueDate   - The next date on which a payment is due, provided this debt has a payment plan.
  */
 public class DebtInfo {
-    private Debt debt;
-    private Boolean isInPaymentPlan;
-    private Double remainingAmount;
-    private Date nextPaymentDueDate;
+    private final Debt debt;
+    private final boolean isInPaymentPlan;
+    private final double remainingAmount;
+    private final Date nextPaymentDueDate; // nullable
 
-    public DebtInfo() {
-        // Do nothing for default constructor.
-    }
-
-    public DebtInfo(Debt debt, Boolean isInPaymentPlan, Double remainingAmount, Date nextPaymentDueDate) {
-        this.debt = debt;
+    public DebtInfo(Debt debt, boolean isInPaymentPlan, double remainingAmount, Date nextPaymentDueDate) {
+        this.debt = Objects.requireNonNull(debt,
+                "Cannot construct DebtInfo: debt must not be null");
         this.isInPaymentPlan = isInPaymentPlan;
         this.remainingAmount = remainingAmount;
         this.nextPaymentDueDate = nextPaymentDueDate;
@@ -31,32 +29,16 @@ public class DebtInfo {
         return debt;
     }
 
-    public void setDebt(Debt debt) {
-        this.debt = debt;
-    }
-
-    public Boolean getIsInPaymentPlan() {
+    public boolean getIsInPaymentPlan() {
         return isInPaymentPlan;
     }
 
-    public void setIsInPaymentPlan(Boolean is_in_payment_plan) {
-        this.isInPaymentPlan = is_in_payment_plan;
-    }
-
-    public Double getRemainingAmount() {
+    public double getRemainingAmount() {
         return remainingAmount;
-    }
-
-    public void setRemainingAmount(Double remaining_amount) {
-        this.remainingAmount = remaining_amount;
     }
 
     public Date getNextPaymentDueDate() {
         return nextPaymentDueDate;
-    }
-
-    public void setNextPaymentDueDate(Date next_payment_due_date) {
-        this.nextPaymentDueDate = next_payment_due_date;
     }
 
     /**

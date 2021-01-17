@@ -6,31 +6,19 @@ package data;
  * amount   - The total amount owed in USD.
  */
 public class Debt {
-    private Integer id;
-    private Double amount;
+    private final int id;
+    private final double amount;
 
-    public Debt() {
-        // Do nothing for default constructor.
-    }
-
-    public Debt(Integer id, Double amount) {
+    public Debt(int id, double amount) {
         this.id = id;
         this.amount = amount;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Double getAmount() {
+    public double getAmount() {
         return amount;
-    }
-
-    public void setAmount(Double amount) {
-        this.amount = amount;
     }
 }

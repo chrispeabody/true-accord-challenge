@@ -3,6 +3,7 @@ package data;
 import enums.InstallmentFrequency;
 
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * This class is meant purely for storing data related to a payment plan.
@@ -13,76 +14,50 @@ import java.util.Date;
  * startDate            - The date this payment plan went (or goes) into effect.
  */
 public class PaymentPlan {
-    private Integer id;
-    private Integer debtId;
-    private Double amountToPay;
-    private InstallmentFrequency installmentFrequency;
-    private Double installmentAmount;
-    private Date startDate;
+    private final int id;
+    private final int debtId;
+    private final double amountToPay;
+    private final InstallmentFrequency installmentFrequency;
+    private final double installmentAmount;
+    private final Date startDate;
 
-    public PaymentPlan() {
-        // Do nothing for default constructor.
-    }
-
-    public PaymentPlan(Integer id,
-                       Integer debtId,
-                       Double amountToPay,
+    public PaymentPlan(int id,
+                       int debtId,
+                       double amountToPay,
                        InstallmentFrequency installmentFrequency,
-                       Double installmentAmount,
+                       double installmentAmount,
                        Date startDate) {
         this.id = id;
         this.debtId = debtId;
         this.amountToPay = amountToPay;
-        this.installmentFrequency = installmentFrequency;
+        this.installmentFrequency = Objects.requireNonNull(installmentFrequency,
+                "Cannot construct PaymentPlan: installmentFrequency must not be null");
         this.installmentAmount = installmentAmount;
-        this.startDate = startDate;
+        this.startDate = Objects.requireNonNull(startDate,
+                "Cannot construct PaymentPlan: startDate must not be null");
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getDebtId() {
+    public int getDebtId() {
         return debtId;
     }
 
-    public void setDebtId(Integer debtId) {
-        this.debtId = debtId;
-    }
-
-    public Double getAmountToPay() {
+    public double getAmountToPay() {
         return amountToPay;
-    }
-
-    public void setAmountToPay(Double amountToPay) {
-        this.amountToPay = amountToPay;
     }
 
     public InstallmentFrequency getInstallmentFrequency() {
         return installmentFrequency;
     }
 
-    public void setInstallmentFrequency(InstallmentFrequency installmentFrequency) {
-        this.installmentFrequency = installmentFrequency;
-    }
-
-    public Double getInstallmentAmount() {
+    public double getInstallmentAmount() {
         return installmentAmount;
-    }
-
-    public void setInstallmentAmount(Double installmentAmount) {
-        this.installmentAmount = installmentAmount;
     }
 
     public Date getStartDate() {
         return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
     }
 }

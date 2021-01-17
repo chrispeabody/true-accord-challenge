@@ -4,9 +4,11 @@ import data.Debt;
 import data.DebtInfo;
 import data.Payment;
 import data.PaymentPlan;
+import enums.InstallmentFrequency;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,11 +26,11 @@ public class DebtAnalysisService {
                                List<PaymentPlan> allPaymentPlans,
                                List<Payment> allPayments) {
         Objects.requireNonNull(allDebts,
-                "Cannot construct DebtAnalysisService: allDebts must not be null");
+                "Cannot construct DebtAnalysisService: allDebts must not be null.");
         Objects.requireNonNull(allPaymentPlans,
-                "Cannot construct DebtAnalysisService: allPaymentPlans must not be null");
+                "Cannot construct DebtAnalysisService: allPaymentPlans must not be null.");
         Objects.requireNonNull(allPayments,
-                "Cannot construct DebtAnalysisService: allPayments must not be null");
+                "Cannot construct DebtAnalysisService: allPayments must not be null.");
 
         this.allDebts = allDebts;
         this.allPaymentPlans = allPaymentPlans;
@@ -46,14 +48,14 @@ public class DebtAnalysisService {
 
         List<DebtInfo> debtInfos = new ArrayList<>();
 
-        // stub
-        // for each debt
-        //      make a debtInfo object
-        //      calculate if it's in a payment plan
-        //      calculate the remaining amount
-        //      if it's in a payment plan, calculate the next due date
-        //      put all this stuff on the debtInfo
-        // compile a list of all these debtInfo
+        for (Debt debt : allDebts) {
+            boolean isInPaymentPlan = findPaymentPlan(debt) != null;
+            double remainingAmount = calculateRemainingAmount(debt);
+            Date nextPaymentDueDate = isInPaymentPlan ? calculateNextPaymentDueDate(debt) : null;
+
+            DebtInfo debtInfo = new DebtInfo(debt, isInPaymentPlan, remainingAmount, nextPaymentDueDate);
+            debtInfos.add(debtInfo);
+        }
 
         return debtInfos;
     }
@@ -62,17 +64,17 @@ public class DebtAnalysisService {
      * Finds the payment plan associate with the given Debt, if one exists. The system assumes a debt will never have
      * more than one associated payment plan, so this function will return the id of the first match found.
      * @param debt The debt we want to find the related payment plan for.
-     * @return The Integer id of the PaymentPlan the given Debt is associated with. If there is no associated plan, this
+     * @return The PaymentPlan the given Debt is associated with. If there is no associated plan, this
      * will return null.
      */
-    public Integer findPaymentPlan(Debt debt) {
-        // null check debt
-        //
-        // stub
-        // get id from debt
-        // loop through list of payment plans
-        // check if any have that debt id
-        // if one does, return the id of that payment plan
+    public PaymentPlan findPaymentPlan(Debt debt) {
+        Objects.requireNonNull(debt, "Cannot find payment plan: debt must not be null");
+
+        for (PaymentPlan paymentPlan : this.allPaymentPlans) {
+            if (paymentPlan.getDebtId() == debt.getId()) {
+                return paymentPlan;
+            }
+        }
 
         return null;
     }
@@ -88,23 +90,29 @@ public class DebtAnalysisService {
      * @return A double representing the amount in USD that still needs to be paid on a debt.
      */
     public double calculateRemainingAmount(Debt debt) {
-        //double remainingAmount = debt.getAmount();
+        Objects.requireNonNull(debt, "Cannot calculate remaining amount: debt must not be null");
 
-        // null check debt
-        //
-        // stub
-        // find the payment plan associated with the debt. if one doesn't exist, return the full amount
-        //
-        // loop through all payments
-        // if the payment has an id related to this debt's plan, subtract it from the total
-        // if the final amount is below zero, set it back to 0
-        // return the final total
+        double remainingAmount = debt.getAmount();
 
-        return -1;
+        PaymentPlan paymentPlan = findPaymentPlan(debt);
+        if (paymentPlan == null) {
+            return remainingAmount;
+        }
+
+        for (Payment payment : this.allPayments) {
+            if (payment.getPaymentPlanId() == paymentPlan.getId()) {
+                remainingAmount -= payment.getAmount();
+                if (remainingAmount <= 0) {
+                    return 0;
+                }
+            }
+        }
+
+        return remainingAmount;
     }
 
     /**
-     * Determines on what day the next payment will be (or was) expected to be payed according to a given paymentPlan.
+     * Determines on what day the next payment will be (or was) expected to be payed according to a given debt.
      *
      * The next payment date is determined with the following assumptions:
      * - The first payment date in the schedule is the start date of the plan
@@ -120,28 +128,42 @@ public class DebtAnalysisService {
      * next payment date
      * - If a debt is completely paid, the nextPaymentDueDate will be null
      *
-     * @param paymentPlan The PaymentPlan to find the next payment day of
+     * @param debt The debt to find the next due date for
      * @return A Date representing the next payment due date for the plan. Null if the associated debt is already paid
      */
-    public Date calculateNextPaymentDueDate(PaymentPlan paymentPlan) {
-        Date nextPaymentDueDate = new Date();
+    public Date calculateNextPaymentDueDate(Debt debt) {
+        Objects.requireNonNull(debt,
+                "Cannot calculate nextPaymentDueDate: debt must not be null");
+        PaymentPlan paymentPlan = Objects.requireNonNull(findPaymentPlan(debt),
+                "Cannot calculate nextPaymentDueDate: debt must have an associated payment plan");
+        if(calculateRemainingAmount(debt) == 0) {
+            return null;
+        }
 
-        // null check paymentPlan
-        // stub
-        //
-        // check the remainingAmount. If it's 0, then just return null
-        //
-        // starting with the paymentplan start date, keep track of the current due date
-        // keep track of a currently paid amount for this date
-        // while we haven't found the answer yet
-        //      if there are more payments
-        //          add the payment to the today's amount
-        //          if it's higher than the installment amount
-        //              subtract the installment amount from the running daily total
-        //              find the next due date based on weekly or bi_weekly added to current date
-        //      else (no more payments)
-        //          this is the due date! return
+        List<Payment> relatedPaymentsList = new ArrayList<>();
+        for (Payment payment : allPayments) {
+            if (payment.getPaymentPlanId() == paymentPlan.getId()) {
+                relatedPaymentsList.add(payment);
+            }
+        }
+        Iterator<Payment> relatedPaymentsIterator = relatedPaymentsList.iterator();
 
-        return nextPaymentDueDate;
+        Date currentDate = Objects.requireNonNull(paymentPlan.getStartDate(),
+                "Cannot calculate nextPaymentDueDate: payment plan start date must not be null");
+
+        double paidForCurrentDate = 0.0;
+        while (true) {
+            if (relatedPaymentsIterator.hasNext()) {
+                paidForCurrentDate += relatedPaymentsIterator.next().getAmount();
+                while (paidForCurrentDate >= paymentPlan.getInstallmentAmount()) {
+                    paidForCurrentDate -= paymentPlan.getInstallmentAmount();
+                    long millisToAdd = paymentPlan.getInstallmentFrequency() == InstallmentFrequency.WEEKLY
+                            ? 604800000 : 1209600000;
+                    currentDate.setTime(currentDate.getTime() + millisToAdd);
+                }
+            } else {
+                return currentDate;
+            }
+        }
     }
 }

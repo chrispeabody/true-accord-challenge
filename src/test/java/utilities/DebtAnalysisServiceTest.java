@@ -11,6 +11,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -87,8 +89,11 @@ public class DebtAnalysisServiceTest {
         List<Payment> allPayments = new ArrayList<>();
         DebtAnalysisService debtAnalysisService = new DebtAnalysisService(allDebts, allPaymentPlans, allPayments);
 
-        // ACT && ASSERT
-        assertEquals(Integer.valueOf(2), debtAnalysisService.findPaymentPlan(debt));
+        // ACT
+        PaymentPlan resultingPaymentPlan = debtAnalysisService.findPaymentPlan(debt);
+
+        // ASSET
+        assertEquals(2, resultingPaymentPlan.getId());
     }
 
     @Test
@@ -117,7 +122,7 @@ public class DebtAnalysisServiceTest {
                         InstallmentFrequency.WEEKLY,
                         4.0,
                         new Date()),
-                new PaymentPlan(3,
+                new PaymentPlan(4,
                         42,
                         3.14,
                         InstallmentFrequency.WEEKLY,
@@ -127,8 +132,11 @@ public class DebtAnalysisServiceTest {
         List<Payment> allPayments = new ArrayList<>();
         DebtAnalysisService debtAnalysisService = new DebtAnalysisService(allDebts, allPaymentPlans, allPayments);
 
+        // ACT
+        PaymentPlan resultingPaymentPlan = debtAnalysisService.findPaymentPlan(debt);
+
         // ACT && ASSERT
-        assertEquals(Integer.valueOf(3), debtAnalysisService.findPaymentPlan(debt));
+        assertEquals(3, resultingPaymentPlan.getId());
     }
 
     @Test
@@ -162,7 +170,7 @@ public class DebtAnalysisServiceTest {
         DebtAnalysisService debtAnalysisService = new DebtAnalysisService(allDebts, allPaymentPlans, allPayments);
 
         // ACT && ASSERT
-        assertEquals(Integer.valueOf(2), debtAnalysisService.findPaymentPlan(debt));
+        assertNull(debtAnalysisService.findPaymentPlan(debt));
     }
 
     @Test
@@ -176,7 +184,7 @@ public class DebtAnalysisServiceTest {
 
         // ACT && ASSERT
         assertThrows(NullPointerException.class, () -> {
-            Integer planId = debtAnalysisService.findPaymentPlan(debt);
+            PaymentPlan paymentPlan = debtAnalysisService.findPaymentPlan(debt);
         });
     }
 
@@ -298,7 +306,8 @@ public class DebtAnalysisServiceTest {
     public void calculateNextPaymentDueDate_weeklyBaseCase() {
         // ARRANGE
         List<Debt> allDebts = new ArrayList<>();
-        allDebts.add(new Debt(17, 1200.00));
+        Debt debt = new Debt(17, 1200.00);
+        allDebts.add(debt);
 
         List<PaymentPlan> allPaymentPlans = new ArrayList<>();
         PaymentPlan paymentPlan = new PaymentPlan(6,
@@ -318,14 +327,15 @@ public class DebtAnalysisServiceTest {
 
         // ACT && ASSERT
         assertEquals(new Date(1605243600000L), // 11/13/2020
-                debtAnalysisService.calculateNextPaymentDueDate(paymentPlan));
+                debtAnalysisService.calculateNextPaymentDueDate(debt));
     }
 
     @Test
     public void calculateNextPaymentDueDate_biweeklyBaseCase() {
         // ARRANGE
         List<Debt> allDebts = new ArrayList<>();
-        allDebts.add(new Debt(17, 1200.00));
+        Debt debt = new Debt(17, 1200.00);
+        allDebts.add(debt);
 
         List<PaymentPlan> allPaymentPlans = new ArrayList<>();
         PaymentPlan paymentPlan = new PaymentPlan(6,
@@ -345,14 +355,15 @@ public class DebtAnalysisServiceTest {
 
         // ACT && ASSERT
         assertEquals(new Date(1607058000000L), // 12/4/2020
-                debtAnalysisService.calculateNextPaymentDueDate(paymentPlan));
+                debtAnalysisService.calculateNextPaymentDueDate(debt));
     }
 
     @Test
     public void calculateNextPaymentDueDate_alreadyPaid() {
         // ARRANGE
         List<Debt> allDebts = new ArrayList<>();
-        allDebts.add(new Debt(17, 1200.00));
+        Debt debt = new Debt(17, 1200.00);
+        allDebts.add(debt);
 
         List<PaymentPlan> allPaymentPlans = new ArrayList<>();
         PaymentPlan paymentPlan = new PaymentPlan(6,
@@ -372,14 +383,15 @@ public class DebtAnalysisServiceTest {
         DebtAnalysisService debtAnalysisService = new DebtAnalysisService(allDebts, allPaymentPlans, allPayments);
 
         // ACT && ASSERT
-        assertNull(debtAnalysisService.calculateNextPaymentDueDate(paymentPlan));
+        assertNull(debtAnalysisService.calculateNextPaymentDueDate(debt));
     }
 
     @Test
     public void calculateNextPaymentDueDate_overpaid() {
         // ARRANGE
         List<Debt> allDebts = new ArrayList<>();
-        allDebts.add(new Debt(17, 1200.00));
+        Debt debt = new Debt(17, 1200.00);
+        allDebts.add(debt);
 
         List<PaymentPlan> allPaymentPlans = new ArrayList<>();
         PaymentPlan paymentPlan = new PaymentPlan(6,
@@ -399,14 +411,15 @@ public class DebtAnalysisServiceTest {
         DebtAnalysisService debtAnalysisService = new DebtAnalysisService(allDebts, allPaymentPlans, allPayments);
 
         // ACT && ASSERT
-        assertNull(debtAnalysisService.calculateNextPaymentDueDate(paymentPlan));
+        assertNull(debtAnalysisService.calculateNextPaymentDueDate(debt));
     }
 
     @Test
     public void calculateNextPaymentDueDate_latePayments() {
         // ARRANGE
         List<Debt> allDebts = new ArrayList<>();
-        allDebts.add(new Debt(17, 1200.00));
+        Debt debt = new Debt(17, 1200.00);
+        allDebts.add(debt);
 
         List<PaymentPlan> allPaymentPlans = new ArrayList<>();
         PaymentPlan paymentPlan = new PaymentPlan(6,
@@ -426,14 +439,15 @@ public class DebtAnalysisServiceTest {
 
         // ACT && ASSERT
         assertEquals(new Date(1607058000000L), // 12/4/2020
-                debtAnalysisService.calculateNextPaymentDueDate(paymentPlan));
+                debtAnalysisService.calculateNextPaymentDueDate(debt));
     }
 
     @Test
     public void calculateNextPaymentDueDate_noPayments() {
         // ARRANGE
         List<Debt> allDebts = new ArrayList<>();
-        allDebts.add(new Debt(17, 1200.00));
+        Debt debt = new Debt(17, 1200.00);
+        allDebts.add(debt);
 
         List<PaymentPlan> allPaymentPlans = new ArrayList<>();
         PaymentPlan paymentPlan = new PaymentPlan(6,
@@ -449,14 +463,15 @@ public class DebtAnalysisServiceTest {
 
         // ACT && ASSERT
         assertEquals(new Date(1603429200000L), // 10/23/2020
-                debtAnalysisService.calculateNextPaymentDueDate(paymentPlan));
+                debtAnalysisService.calculateNextPaymentDueDate(debt));
     }
 
     @Test
     public void calculateNextPaymentDueDate_earlyPayments() {
         // ARRANGE
         List<Debt> allDebts = new ArrayList<>();
-        allDebts.add(new Debt(17, 1200.00));
+        Debt debt = new Debt(17, 1200.00);
+        allDebts.add(debt);
 
         List<PaymentPlan> allPaymentPlans = new ArrayList<>();
         PaymentPlan paymentPlan = new PaymentPlan(6,
@@ -476,14 +491,15 @@ public class DebtAnalysisServiceTest {
 
         // ACT && ASSERT
         assertEquals(new Date(1607058000000L), // 12/4/2020
-                debtAnalysisService.calculateNextPaymentDueDate(paymentPlan));
+                debtAnalysisService.calculateNextPaymentDueDate(debt));
     }
 
     @Test
     public void calculateNextPaymentDueDate_insufficientPayments() {
         // ARRANGE
         List<Debt> allDebts = new ArrayList<>();
-        allDebts.add(new Debt(17, 1200.00));
+        Debt debt = new Debt(17, 1200.00);
+        allDebts.add(debt);
 
         List<PaymentPlan> allPaymentPlans = new ArrayList<>();
         PaymentPlan paymentPlan = new PaymentPlan(6,
@@ -503,14 +519,15 @@ public class DebtAnalysisServiceTest {
 
         // ACT && ASSERT
         assertEquals(new Date(1604638800000L), // 11/6/2020
-                debtAnalysisService.calculateNextPaymentDueDate(paymentPlan));
+                debtAnalysisService.calculateNextPaymentDueDate(debt));
     }
 
     @Test
     public void calculateNextPaymentDueDate_surplusPayment() {
         // ARRANGE
         List<Debt> allDebts = new ArrayList<>();
-        allDebts.add(new Debt(17, 1200.00));
+        Debt debt = new Debt(17, 1200.00);
+        allDebts.add(debt);
 
         List<PaymentPlan> allPaymentPlans = new ArrayList<>();
         PaymentPlan paymentPlan = new PaymentPlan(6,
@@ -529,13 +546,16 @@ public class DebtAnalysisServiceTest {
 
         // ACT && ASSERT
         assertEquals(new Date(1605243600000L), // 11/13/2020
-                debtAnalysisService.calculateNextPaymentDueDate(paymentPlan));
+                debtAnalysisService.calculateNextPaymentDueDate(debt));
     }
 
     @Test
     public void calculateNextPaymentDueDate_nullPaymentPlan() {
         // ARRANGE
         List<Debt> allDebts = new ArrayList<>();
+        Debt debt = new Debt(17, 1200.00);
+        allDebts.add(debt);
+
         List<PaymentPlan> allPaymentPlans = new ArrayList<>();
         allPaymentPlans.add(new PaymentPlan(1,
                 42,
@@ -543,13 +563,12 @@ public class DebtAnalysisServiceTest {
                 InstallmentFrequency.WEEKLY,
                 4.0,
                 new Date()));
-        PaymentPlan nullPaymentPlan = null;
         List<Payment> allPayments = new ArrayList<>();
         DebtAnalysisService debtAnalysisService = new DebtAnalysisService(allDebts, allPaymentPlans, allPayments);
 
         // ACT && ASSERT
         assertThrows(NullPointerException.class, () -> {
-            Date dueDate = debtAnalysisService.calculateNextPaymentDueDate(nullPaymentPlan);
+            Date dueDate = debtAnalysisService.calculateNextPaymentDueDate(debt);
         });
     }
 
@@ -604,8 +623,22 @@ public class DebtAnalysisServiceTest {
         List<DebtInfo> debtInfos = debtAnalysisService.generateDebtInfos();
 
         // ASSERT
-        assertEquals(expectedDebtInfo1, debtInfos.get(0));
-        assertEquals(expectedDebtInfo2, debtInfos.get(1));
-        assertEquals(expectedDebtInfo3, debtInfos.get(2));
+        assertEquals(4, debtInfos.get(0).getDebt().getId());
+        assertEquals(800.00, debtInfos.get(0).getDebt().getAmount());
+        assertTrue(debtInfos.get(0).getIsInPaymentPlan());
+        assertEquals(0.00, debtInfos.get(0).getRemainingAmount());
+        assertNull(debtInfos.get(0).getNextPaymentDueDate());
+
+        assertEquals(17, debtInfos.get(1).getDebt().getId());
+        assertEquals(1200.00, debtInfos.get(1).getDebt().getAmount());
+        assertTrue(debtInfos.get(1).getIsInPaymentPlan());
+        assertEquals(300.00, debtInfos.get(1).getRemainingAmount());
+        assertEquals(new Date(1600318800000L), debtInfos.get(1).getNextPaymentDueDate());
+
+        assertEquals(50, debtInfos.get(2).getDebt().getId());
+        assertEquals(1000.00, debtInfos.get(2).getDebt().getAmount());
+        assertFalse(debtInfos.get(2).getIsInPaymentPlan());
+        assertEquals(1000.00, debtInfos.get(2).getRemainingAmount());
+        assertNull(debtInfos.get(2).getNextPaymentDueDate());
     }
 }

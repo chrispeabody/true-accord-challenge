@@ -1,47 +1,33 @@
 package data;
 
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * This class is meant purely for storing data related to a payment. It has the id of the payment plan it relates to,
  * the amount of USD paid, and the date when the payment occurred.
  */
 public class Payment {
-    private Integer paymentPlanId;
-    private Double amount;
-    private Date date;
+    private final int paymentPlanId;
+    private final double amount;
+    private final Date date;
 
-    public Payment() {
-        // Do nothing for default constructor.
-    }
-
-    public Payment(Integer paymentPlanId, Double amount, Date date) {
+    public Payment(int paymentPlanId, double amount, Date date) {
         this.paymentPlanId = paymentPlanId;
         this.amount = amount;
-        this.date = date;
+        this.date = Objects.requireNonNull(date,
+                "Cannot construct Payment: date must not be null");
     }
 
-    public Integer getPaymentPlanId() {
+    public int getPaymentPlanId() {
         return paymentPlanId;
     }
 
-    public void setPaymentPlanId(Integer paymentPlanId) {
-        this.paymentPlanId = paymentPlanId;
-    }
-
-    public Double getAmount() {
+    public double getAmount() {
         return amount;
-    }
-
-    public void setAmount(Double amount) {
-        this.amount = amount;
     }
 
     public Date getDate() {
         return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 }
